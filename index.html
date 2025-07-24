@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEBA - Sistema de Bajas Académicas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #b71c1c;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-section h2 {
+            color: #b71c1c;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        label .required {
+            color: #b71c1c;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #b71c1c;
+        }
+
+        .error {
+            color: #d32f2f;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .input-error {
+            border-color: #d32f2f !important;
+        }
+
+        .asignatura-item {
+            background: #f5f5f5;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .asignatura-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .btn-remove {
+            background: #d32f2f;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-remove:hover {
+            background: #b71c1c;
+        }
+
+        .btn-add {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .btn-add:hover {
+            background: #45a049;
+        }
+
+        .btn-add:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-submit {
+            background: #b71c1c;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn-submit:hover {
+            background: #8b0000;
+        }
+
+        .btn-submit:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .message {
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            text-align: center;
+            display: none;
+        }
+
+        .message.success {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .message.error {
+            background: #f44336;
+            color: white;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #b71c1c;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .info-box p {
+            margin: 0;
+            color: #1976D2;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .container {
+                padding: 0 10px;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>MEBA - Sistema de Bajas Académicas</h1>
+        <p>Universidad Politécnica de Tlaxcala</p>
+    </div>
+
+    <div class="container">
+        <div class="form-container">
+            <div class="info-box">
+                <p>Complete el siguiente formulario para solicitar la baja de asignaturas. Todos los campos marcados con * son obligatorios.</p>
+            </div>
+
+            <form id="bajaForm">
+                <!-- Sección: Datos del Alumno -->
+                <div class="form-section">
+                    <h2>Datos del Alumno</h2>
+                    
+                    <div class="form-group">
+                        <label for="matricula">Matrícula <span class="required">*</span></label>
+                        <input type="text" id="matricula" name="matricula" maxlength="10" required>
+                        <span class="error" id="matricula-error">La matrícula debe tener exactamente 10 dígitos</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nombre">Nombre Completo <span class="required">*</span></label>
+                        <input type="text" id="nombre" name="nombre" required>
+                        <span class="error" id="nombre-error">El nombre es obligatorio</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" required>
+                        <span class="error" id="email-error">Ingrese un correo electrónico válido</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="carrera">Carrera <span class="required">*</span></label>
+                        <select id="carrera" name="carrera" required>
+                            <option value="">Seleccione su carrera</option>
+                            <option value="ITIID">Ingeniería en Tecnologías de la Información e Innovación Digital</option>
+                            <option value="ISC">Ingeniería en Sistemas Computacionales</option>
+                            <option value="IIN">Ingeniería Industrial</option>
+                            <option value="IME">Ingeniería Mecatrónica</option>
+                            <option value="IBI">Ingeniería Biotecnología</option>
+                        </select>
+                        <span class="error" id="carrera-error">Seleccione una carrera</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cuatrimestre">Cuatrimestre <span class="required">*</span></label>
+                        <select id="cuatrimestre" name="cuatrimestre" required>
+                            <option value="">Seleccione su cuatrimestre</option>
+                            <option value="1">1°</option>
+                            <option value="2">2°</option>
+                            <option value="3">3°</option>
+                            <option value="4">4°</option>
+                            <option value="5">5°</option>
+                            <option value="6">6°</option>
+                            <option value="7">7°</option>
+                            <option value="8">8°</option>
+                            <option value="9">9°</option>
+                        </select>
+                        <span class="error" id="cuatrimestre-error">Seleccione un cuatrimestre</span>
+                    </div>
+                </div>
+
+                <!-- Sección: Datos de las Asignaturas -->
+                <div class="form-section">
+                    <h2>Datos de las Asignaturas</h2>
+                    <p style="color: #666; margin-bottom: 20px;">Puede dar de baja hasta 3 asignaturas</p>
+                    
+                    <div id="asignaturas-container">
+                        <!-- Primera asignatura (obligatoria) -->
+                        <div class="asignatura-item" data-index="0">
+                            <div class="asignatura-header">
+                                <h3>Asignatura 1</h3>
+                            </div>
+                            <div class="form-group">
+                                <label for="asignatura-0">Nombre de la Asignatura <span class="required">*</span></label>
+                                <input type="text" id="asignatura-0" name="asignaturas[]" required>
+                                <span class="error">El nombre de la asignatura es obligatorio</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="profesor-0">Profesor <span class="required">*</span></label>
+                                <input type="text" id="profesor-0" name="profesores[]" required>
+                                <span class="error">El nombre del profesor es obligatorio</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="motivo-0">Motivo de Baja <span class="required">*</span></label>
+                                <select id="motivo-0" name="motivos[]" required>
+                                    <option value="">Seleccione un motivo</option>
+                                    <option value="Problemas personales">Problemas personales</option>
+                                    <option value="Problemas económicos">Problemas económicos</option>
+                                    <option value="Problemas de salud">Problemas de salud</option>
+                                    <option value="Dificultad académica">Dificultad académica</option>
+                                    <option value="Cambio de carrera">Cambio de carrera</option>
+                                    <option value="Otro">Otro</option>
+                                </select>
+                                <span class="error">Seleccione un motivo</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn-add" id="btnAgregarAsignatura">
+                        + Agregar otra asignatura
+                    </button>
+                </div>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Procesando solicitud...</p>
+                </div>
+
+                <div class="message success" id="successMessage">
+                    ¡Solicitud enviada exitosamente! Se ha registrado su solicitud de baja.
+                </div>
+
+                <div class="message error" id="errorMessage">
+                    Error al enviar la solicitud. Por favor, intente nuevamente.
+                </div>
+
+                <button type="submit" class="btn-submit" id="btnSubmit">
+                    Enviar Solicitud de Baja
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // URL del Web App de Google Apps Script
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwDDTfYq5g5vb3cmrnAK_XFl4pulQuY8unnDnZBtq32HqSmZKIrSoTax8MifsrsXUyHxQ/exec';
+
+        let asignaturasCount = 1;
+        const maxAsignaturas = 3;
+
+        // Validación de matrícula
+        document.getElementById('matricula').addEventListener('input', function(e) {
+            const value = e.target.value.replace(/\D/g, '');
+            e.target.value = value;
+            
+            if (value.length === 10) {
+                e.target.classList.remove('input-error');
+                document.getElementById('matricula-error').style.display = 'none';
+            }
+        });
+
+        // Agregar nueva asignatura
+        document.getElementById('btnAgregarAsignatura').addEventListener('click', function() {
+            if (asignaturasCount >= maxAsignaturas) {
+                alert('Solo puede dar de baja un máximo de 3 asignaturas');
+                return;
+            }
+
+            const container = document.getElementById('asignaturas-container');
+            const newIndex = asignaturasCount;
+            
+            const newAsignatura = document.createElement('div');
+            newAsignatura.className = 'asignatura-item';
+            newAsignatura.setAttribute('data-index', newIndex);
+            
+            newAsignatura.innerHTML = `
+                <div class="asignatura-header">
+                    <h3>Asignatura ${newIndex + 1}</h3>
+                    <button type="button" class="btn-remove" onclick="removeAsignatura(${newIndex})">Eliminar</button>
+                </div>
+                <div class="form-group">
+                    <label for="asignatura-${newIndex}">Nombre de la Asignatura <span class="required">*</span></label>
+                    <input type="text" id="asignatura-${newIndex}" name="asignaturas[]" required>
+                    <span class="error">El nombre de la asignatura es obligatorio</span>
+                </div>
+                <div class="form-group">
+                    <label for="profesor-${newIndex}">Profesor <span class="required">*</span></label>
+                    <input type="text" id="profesor-${newIndex}" name="profesores[]" required>
+                    <span class="error">El nombre del profesor es obligatorio</span>
+                </div>
+                <div class="form-group">
+                    <label for="motivo-${newIndex}">Motivo de Baja <span class="required">*</span></label>
+                    <select id="motivo-${newIndex}" name="motivos[]" required>
+                        <option value="">Seleccione un motivo</option>
+                        <option value="Problemas personales">Problemas personales</option>
+                        <option value="Problemas económicos">Problemas económicos</option>
+                        <option value="Problemas de salud">Problemas de salud</option>
+                        <option value="Dificultad académica">Dificultad académica</option>
+                        <option value="Cambio de carrera">Cambio de carrera</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                    <span class="error">Seleccione un motivo</span>
+                </div>
+            `;
+            
+            container.appendChild(newAsignatura);
+            asignaturasCount++;
+            
+            if (asignaturasCount >= maxAsignaturas) {
+                this.disabled = true;
+            }
+        });
+
+        // Función para eliminar asignatura
+        function removeAsignatura(index) {
+            const item = document.querySelector(`[data-index="${index}"]`);
+            item.remove();
+            asignaturasCount--;
+            
+            document.getElementById('btnAgregarAsignatura').disabled = false;
+            
+            // Reindexar las asignaturas restantes
+            const items = document.querySelectorAll('.asignatura-item');
+            items.forEach((item, i) => {
+                item.setAttribute('data-index', i);
+                item.querySelector('h3').textContent = `Asignatura ${i + 1}`;
+                if (i > 0) {
+                    item.querySelector('.btn-remove').setAttribute('onclick', `removeAsignatura(${i})`);
+                }
+            });
+        }
+
+        // Validación del formulario
+        function validateForm() {
+            let isValid = true;
+            
+            // Validar matrícula
+            const matricula = document.getElementById('matricula');
+            if (matricula.value.length !== 10) {
+                matricula.classList.add('input-error');
+                document.getElementById('matricula-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Validar nombre
+            const nombre = document.getElementById('nombre');
+            if (!nombre.value.trim()) {
+                nombre.classList.add('input-error');
+                document.getElementById('nombre-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Validar email
+            const email = document.getElementById('email');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email.value)) {
+                email.classList.add('input-error');
+                document.getElementById('email-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Validar carrera
+            const carrera = document.getElementById('carrera');
+            if (!carrera.value) {
+                carrera.classList.add('input-error');
+                document.getElementById('carrera-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Validar cuatrimestre
+            const cuatrimestre = document.getElementById('cuatrimestre');
+            if (!cuatrimestre.value) {
+                cuatrimestre.classList.add('input-error');
+                document.getElementById('cuatrimestre-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Validar asignaturas
+            const asignaturas = document.querySelectorAll('[name="asignaturas[]"]');
+            const profesores = document.querySelectorAll('[name="profesores[]"]');
+            const motivos = document.querySelectorAll('[name="motivos[]"]');
+            
+            asignaturas.forEach((input, i) => {
+                if (!input.value.trim()) {
+                    input.classList.add('input-error');
+                    input.nextElementSibling.style.display = 'block';
+                    isValid = false;
+                }
+            });
+            
+            profesores.forEach((input, i) => {
+                if (!input.value.trim()) {
+                    input.classList.add('input-error');
+                    input.nextElementSibling.style.display = 'block';
+                    isValid = false;
+                }
+            });
+            
+            motivos.forEach((select, i) => {
+                if (!select.value) {
+                    select.classList.add('input-error');
+                    select.nextElementSibling.style.display = 'block';
+                    isValid = false;
+                }
+            });
+            
+            return isValid;
+        }
+
+        // Limpiar errores al escribir
+        document.querySelectorAll('input, select').forEach(element => {
+            element.addEventListener('input', function() {
+                this.classList.remove('input-error');
+                const errorSpan = this.nextElementSibling;
+                if (errorSpan && errorSpan.classList.contains('error')) {
+                    errorSpan.style.display = 'none';
+                }
+            });
+        });
+
+        // Envío del formulario
+        document.getElementById('bajaForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Ocultar mensajes previos
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'none';
+            
+            // Validar formulario
+            if (!validateForm()) {
+                return;
+            }
+            
+            // Mostrar loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('btnSubmit').disabled = true;
+            
+            // Preparar datos
+            const formData = new FormData(e.target);
+            const data = {
+                timestamp: new Date().toISOString(),
+                matricula: formData.get('matricula'),
+                nombre: formData.get('nombre'),
+                email: formData.get('email'),
+                carrera: formData.get('carrera'),
+                cuatrimestre: formData.get('cuatrimestre'),
+                asignaturas: []
+            };
+            
+            // Recopilar datos de asignaturas
+            const asignaturas = formData.getAll('asignaturas[]');
+            const profesores = formData.getAll('profesores[]');
+            const motivos = formData.getAll('motivos[]');
+            
+            for (let i = 0; i < asignaturas.length; i++) {
+                data.asignaturas.push({
+                    nombre: asignaturas[i],
+                    profesor: profesores[i],
+                    motivo: motivos[i]
+                });
+            }
+            
+            try {
+                // Enviar a Google Apps Script
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                // Como usamos no-cors, asumimos éxito si no hay error
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+                
+                // Limpiar formulario
+                e.target.reset();
+                
+                // Eliminar asignaturas adicionales
+                const extraAsignaturas = document.querySelectorAll('.asignatura-item:not(:first-child)');
+                extraAsignaturas.forEach(item => item.remove());
+                asignaturasCount = 1;
+                document.getElementById('btnAgregarAsignatura').disabled = false;
+                
+                // Scroll al mensaje de éxito
+                document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
+                
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('errorMessage').style.display = 'block';
+            } finally {
+                document.getElementById('btnSubmit').disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
