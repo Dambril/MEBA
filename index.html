@@ -370,7 +370,7 @@
 
     <script>
         // URL del Web App de Google Apps Script
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwDDTfYq5g5vb3cmrnAK_XFl4pulQuY8unnDnZBtq32HqSmZKIrSoTax8MifsrsXUyHxQ/exec';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbys3-iR1S28j_5aKSRX66OiTtNPsN6qN_1csOtJZZ84jVoix6IDQA7E9s4xLphnD-5DTA/exec';
 
         let asignaturasCount = 1;
         const maxAsignaturas = 3;
@@ -591,7 +591,7 @@
                 // Enviar a Google Apps Script
                 const response = await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors',
+		    mode: 'no-cors',
                     headers: {
                         'Content-Type': 'application/json',
                     },
