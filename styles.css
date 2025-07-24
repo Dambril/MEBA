@@ -1,0 +1,64 @@
+body {
+    background-color: #F8F3E8; /* Un color crema/beige de fondo */
+    font-family: 'Inter', sans-serif;
+    color: #4A2E2E; /* Un color café oscuro para el texto */
+}
+
+.form-container {
+    background-color: #FFFFFF;
+    border: 1px solid #DED0B6;
+}
+
+.form-input, .form-select {
+    background-color: #F9F9F9;
+    border: 1px solid #DED0B6;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus, .form-select:focus {
+    outline: none;
+    border-color: #A0522D; /* Siena */
+    box-shadow: 0 0 0 2px rgba(160, 82, 45, 0.2);
+}
+
+.btn-primary {
+    background-color: #8B5E3C; /* Un marrón más oscuro */
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #704A2F;
+}
+
+.btn-secondary {
+    background-color: #DED0B6;
+    color: #4A2E2E;
+    transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #C9B89B;
+}
+
+.section-title {
+    color: #8B5E3C;
+    border-bottom: 2px solid #DED0B6;
+}
+
+.modal-overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-content {
+    background-color: #F8F3E8;
+    border: 2px solid #8B5E3C;
+}
+
+.modal-icon-success {
+    color: #22C55E; /* green-500 */
+}
+
+.modal-icon-error {
+    color: #EF4444; /* red-500 */
+}

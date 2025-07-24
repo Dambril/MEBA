@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Pre-registro de Bajas Academicas - UPTX</title>
+    <!--Tailwind CSS, mas libre que bootstrap-->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!--Google Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body class="flex flex-col min-h-screen items-center justify-center p-4">
+
+    <!--Main Formulario-->
+    <main class="form-container w-full max-w-4xl p-6 sm:p-8 rounded-xl shadow-lg">
+        <!--Encabezado-->
+        <header class="text-center mb-8">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-400">UPTX</h1>
+            <p class="text-sm text-gray-500">Pre-registro de Bajas Académicas - UPTX</p>
+            <h2 class="text-xl sm:text-2xl font-semibold mt-2" style="color: #A0522D;">FORMULARIO DE PRE-REGISTRO</h2>
+        </header>
+
+        <form id="bajas-form" novalidate>
+            <!--Datos del Alumno-->
+            <section class="mb-8">
+                <h3 class="section-title text-lg font-bold pb-2 mb-4">DATOS DEL ESTUDIANTE</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="md:col-span-2">
+                        <label for="nombre" class="block text-sm font-medium mb-1">Nombre Completo</label>
+                        <input type="text" id="nombre" name="nombre" class="form-input w-full p-2 rounded-md" required>
+                    </div>
+                    <div>
+                        <label for="matricula" class="block text-sm font-medium mb-1">Matrícula</label>
+                        <input type="text" id="matricula" name="matricula" class="form-input w-full p-2 rounded-md" maxlength="10" pattern="\d{10}" required> 
+                    </div>
+                    <div>
+                        <label for="programa" class="block text-sm font-medium mb-1">Programa Académico</label>
+                        <select id="programa" name="programa" class="form-select w-full p-2 rounded-md" required>
+                            <option value="">Seleccione...</option>
+                            <option value="Ti">Ing. en Tecnologías de la Información</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="cuatrimestre" class="block text-sm font-medium mb-1">Cuatrimestre</label>
+                         <select id="cuatrimestre" name="cuatrimestre" class="form-select w-full p-2 rounded-md" required>
+                            <option value="">Seleccione...</option>
+                            <option value="1">1ro</option>
+                            <option value="2">2do</option>
+                            <option value="3">3ro</option>
+                            <option value="4">4to</option>
+                            <option value="5">5to</option>
+                            <option value="6">6to</option>
+                            <option value="7">7mo</option>
+                            <option value="8">8vo</option>
+                            <option value="9">9no</option>
+                            <option value="10">10mo</option>
+                        </select>
+                    </div>
+                     <div>
+                        <label for="grupo" class="block text-sm font-medium mb-1">Grupo</label>
+                        <select id="grupo" name="grupo" class="form-select w-full p-2 rounded-md" required>
+                            <option value="">Seleccione...</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                            <option value="G">G</option>
+                            <option value="H">H</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!--Datos Asignatura -->
+            <!--<section>
+                <h3 class="section-title text-lg font-bold pb-2 mb-4">DATOS DE LA ASIGNATURA</h3>
+                <div id="asignaturas-container" class="space-y-4">
+                    como lo modificamos aqui¿
+                </div>
+                <button type="button" id="add-asignatura-btn" class="btn-secondary mt-4 py-2 px-4 rounded-md font-semibold flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                    </svg>
+                    Agregar asignatura
+                </button>
+            </section> -->
+
+            <!--Enviar-->
+            <div class="mt-10 text-center">
+                <button type="submit" class="btn-primary font-bold py-3 px-10 rounded-lg shadow-md">
+                    Siguiente
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <!-- Pie de Página -->
+    <footer class="w-full max-w-4xl mt-6 text-sm text-gray-500 flex justify-between items-center">
+        <p>Contacto y ayuda: <a href="mailto:soporte@uptx.edu.mx" class="hover:underline">soporte@uptx.edu.mx</a></p>
+        <p>Desarrollado por MEBA 2025</p>
+    </footer>
+
+    </body>
+</html>
