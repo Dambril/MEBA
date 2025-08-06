@@ -1,4 +1,4 @@
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbys3-iR1S28j_5aKSRX66OiTtNPsN6qN_1csOtJZZ84jVoix6IDQA7E9s4xLphnD-5DTA/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwcVz0JbsB3ELN6s26BsGLxRhnPN7q1ddtqcpVqiwFw2HA2Q1M4o5CrErjaHu6M-s2M/exec';
 
 
 let asignaturasCount = 1;
@@ -233,4 +233,5 @@ document.getElementById('bajaForm').addEventListener('submit', async function(e)
     }
 
 });
+
 
