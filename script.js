@@ -1,4 +1,4 @@
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbys3-iR1S28j_5aKSRX66OiTtNPsN6qN_1csOtJZZ84jVoix6IDQA7E9s4xLphnD-5DTA/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxuf337Y0PWDP_9JdD-AjsvMxruj4kH0I_7eKy5NpXJvK_-SLnJtNaPxOa6j9y_7g4tXQ/exec';
 let asignaturasCount = 1;
 const maxAsignaturas = 3;
 
@@ -229,4 +229,5 @@ document.getElementById('bajaForm').addEventListener('submit', async function(e)
     } finally {
         document.getElementById('btnSubmit').disabled = false;
     }
+
 });
